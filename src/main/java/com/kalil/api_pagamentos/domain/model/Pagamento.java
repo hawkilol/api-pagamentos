@@ -17,7 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.AssertTrue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,6 +37,7 @@ public class Pagamento implements Serializable {
     @Column(name = "pag_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     
     @Column(name = "pag_cod_debito", nullable = false)
     private String codigoDebito;
@@ -66,25 +66,16 @@ public class Pagamento implements Serializable {
         public String getDesc(){
             return desc;
         }
-
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pag_status")
+    @Column(name = "pag_status", nullable = false)
     private StatusPagamento status;
     
     
     @Column(name = "pag_ncartao")
-    private Integer nCartao;
+    private String nCartao;
     
-    @AssertTrue(message = "Número do cartão é obrigatório para pagamentos com o cartão de crédito!")
-    public Boolean isNcartaoValido(){
-        if (metodoPagamento.getNome().equalsIgnoreCase("cartao_credito") || 
-        metodoPagamento.getNome().equalsIgnoreCase("cartao_debito")){
-            return nCartao != null;
-        }
-        return true;
-    }
-    @Column(name = "pag_ativo")
+    @Column(name = "pag_ativo", nullable = false)
     private Boolean ativo;
 }

@@ -11,22 +11,24 @@ import jakarta.persistence.criteria.Root;
 
 public class PagamentoSpec {
     
-    public Predicate addPredicate(Predicate predicate, Root<Pagamento> root, CriteriaBuilder criteriaBuilder, FiltroPagamento filtro, String atributeName) {
-        if (filtro.getCodigoDebito() != null && !filtro.getCodigoDebito().isEmpty()){
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get(atributeName), filtro.getCodigoDebito()));
-        }
-        return predicate;
-    }
-
     public Specification<Pagamento> filtro(FiltroPagamento filtro) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
-
-            predicate = addPredicate(predicate, root, criteriaBuilder, filtro, "codigoDebito");
-            predicate = addPredicate(predicate, root, criteriaBuilder, filtro, "cpfCnpj");
-            predicate = addPredicate(predicate, root, criteriaBuilder, filtro, "status");
-
+    
+            predicate = addPredicate(filtro.getCodigoDebito(), "codigoDebito", root, criteriaBuilder, predicate);
+            predicate = addPredicate(filtro.getCpfCnpj(), "cpfCnpj", root, criteriaBuilder, predicate);
+            predicate = addPredicate(filtro.getStatus(), "status", root, criteriaBuilder, predicate);
+    
             return predicate;
         };
     }
+    
+    private Predicate addPredicate(Object value, String fieldName, Root<Pagamento> root, CriteriaBuilder criteriaBuilder, Predicate predicate) {
+        if (value != null && !value.toString().isEmpty()) {
+            predicate = criteriaBuilder.and(predicate,
+                    criteriaBuilder.equal(root.get(fieldName), value));
+        }
+        return predicate;
+    }
+    
 }

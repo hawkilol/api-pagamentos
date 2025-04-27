@@ -7,9 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kalil.api_pagamentos.domain.model.Pagamento;
+import com.kalil.api_pagamentos.domain.repository.MetodoPagamentoRepository;
 import com.kalil.api_pagamentos.domain.repository.PagamentoRepository;
 import com.kalil.api_pagamentos.domain.specs.PagamentoSpec;
 import com.kalil.api_pagamentos.v1.dto.FiltroPagamento;
+import com.kalil.api_pagamentos.v1.dto.FiltroPagamentoIn;
 import com.kalil.api_pagamentos.v1.dto.PagamentoIn;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import lombok.AllArgsConstructor;
 public class PagamentoService {
     
     private final PagamentoRepository pagamentoRepository;
+    private final MetodoPagamentoRepository metodoPagamentoRepository;
      
     public Pagamento criar(PagamentoIn pagamentoIn) {
         try {
@@ -27,6 +30,7 @@ public class PagamentoService {
             pagamento.setCodigoDebito(pagamentoIn.getCodigoDebito());
             pagamento.setCpfCnpj(pagamentoIn.getCpfCnpj());
             pagamento.setMetodoPagamento(pagamentoIn.getMetodoPagamento());
+            pagamento.setMetodoPagamento(metodoPagamentoRepository.findById(pagamentoIn.getMetodoPagamento().getId()).orElse(null));
             pagamento.setValor(pagamentoIn.getValor());
             pagamento.setStatus(Pagamento.StatusPagamento.PENDENTE);
             pagamento.setNCartao(pagamentoIn.getNCartao());
@@ -64,7 +68,6 @@ public class PagamentoService {
             else{
                 throw new Exception(String.format("%s, o status não pode ser alterado para %s", pagamento.getStatus().getDesc(), statusNovo.getDesc()));   
             }
-        
             pagamentoRepository.save(pagamento);
         } catch (Exception e) {
         }
@@ -97,8 +100,12 @@ public class PagamentoService {
         return pagamentoRepository.findAll(pageable);
     }
 
-    public Page<Pagamento> listarPorFiltro(FiltroPagamento filtroPagamento, Pageable pageable){
+    public Page<Pagamento> listarPorFiltro(FiltroPagamentoIn filtroPagamentoIn, Pageable pageable){
         PagamentoSpec pagamentoSpec = new PagamentoSpec();
+        FiltroPagamento filtroPagamento = new FiltroPagamento();
+        filtroPagamento.setCodigoDebito(filtroPagamentoIn.getCodigoDebito());
+        filtroPagamento.setCpfCnpj(filtroPagamentoIn.getCpfCnpj());
+        filtroPagamento.setStatus(Pagamento.StatusPagamento.valueOf(filtroPagamentoIn.getStatus()));
         return pagamentoRepository.findAll(pagamentoSpec.filtro(filtroPagamento), pageable);
     }
     
