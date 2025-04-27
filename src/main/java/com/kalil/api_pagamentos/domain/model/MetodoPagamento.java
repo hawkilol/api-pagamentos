@@ -1,4 +1,6 @@
 package com.kalil.api_pagamentos.domain.model;
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GenerationType;
@@ -17,12 +19,13 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class MetodoPagamento {
+public class MetodoPagamento implements Serializable {
+    private static final long serialVersionUID = 1L;
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "metpag_nome")
     private String nome;

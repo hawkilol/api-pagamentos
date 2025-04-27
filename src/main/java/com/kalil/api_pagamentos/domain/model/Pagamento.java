@@ -1,5 +1,12 @@
 package com.kalil.api_pagamentos.domain.model;
 
+import java.io.Serializable;
+
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,16 +29,18 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class Pagamento {
+@FilterDef(name = "ativoFilter", parameters = @ParamDef(name = "ativo", type = Boolean.class))
+@Filters({@Filter(name = "ativoFilter", condition = "pag_ativo = :ativo")})
+public class Pagamento implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "pag_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     
     @Column(name = "pag_cod_debito", nullable = false)
     private String codigoDebito;
-
 
     @Column(name = "pag_cpf_cnpj", nullable = false)
     private String cpfCnpj;
@@ -40,34 +49,42 @@ public class Pagamento {
     @JoinColumn(name = "pag_metpag", nullable = false)
     private MetodoPagamento metodoPagamento;
 
-    
     @Column(name = "pag_valor", nullable = false)
     private double valor;
     
     
     public enum StatusPagamento {
-        PENDENTE,
-        SUCESSO,
-        FALHA
+        PENDENTE("Pagamento pendente de processamento"),
+        SUCESSO("Pagamento processado com sucesso"),
+        FALHA("Pagamento processado com falha");
+        
+        private final String desc;
+
+        private StatusPagamento(String desc){
+            this.desc = desc;
+        }
+        public String getDesc(){
+            return desc;
+        }
+
     }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "pag_status")
     private StatusPagamento status;
     
-    @Column(name = "pag_ativo")
-    private Boolean ativo;
-
+    
     @Column(name = "pag_ncartao")
-    private Integer ncartao;
-
-
+    private Integer nCartao;
+    
     @AssertTrue(message = "Número do cartão é obrigatório para pagamentos com o cartão de crédito!")
     public Boolean isNcartaoValido(){
         if (metodoPagamento.getNome().equalsIgnoreCase("cartao_credito") || 
         metodoPagamento.getNome().equalsIgnoreCase("cartao_debito")){
-            return ncartao != null;
+            return nCartao != null;
         }
         return true;
     }
+    @Column(name = "pag_ativo")
+    private Boolean ativo;
 }
