@@ -1,10 +1,11 @@
 # API Pagamentos
 Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamentos de débitos de pessoas físicas e jurídicas.
+> Deploy: https://api-pagamentos-t5ji.onrender.com
 
 ## Funcionalidades
 > [!IMPORTANT]
 > Endpoints documentados no Swagger (/swagger-ui/index.html)
-> Deploy: https://api-pagamentos-t5ji.onrender.com
+
 
 ### 1. Recebimento de Pagamentos
 - #### /v1/pagamento
