@@ -6,9 +6,14 @@ Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamen
 > Endpoints documentados no Swagger (http://localhost:8080/swagger-ui/index.html)
 
 ### 1. Recebimento de Pagamentos
+- #### /v1/pagamento
 ### 2. Atualização de Status de Pagamento
+- #### /v1/pagamento-status/{pagamentoId}
 ### 3. Listagem de Pagamentos
+- #### /v1/pagamentos-listar
 ### 4. Exclusão Lógica de Pagamentos
+- #### /v1/pagamento/{pagamentoId}
+
 
 ## Funcionalidades
 > [!IMPORTANT]
