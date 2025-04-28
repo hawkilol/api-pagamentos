@@ -1,6 +1,6 @@
 # API Pagamentos
 
-## Versão compatível: JAVA 17
+## Versão compatível: JAVA 17+
   
 ## Build
 ```bash
@@ -48,7 +48,6 @@ cd target/ && java -jar api-pagamentos-0.0.1-SNAPSHOT.jar
   - #### dto
     Objetos para transferir dados da camada da API para as camadas de domain e model, expoe só os dados necessários e valida.
 
-
 - ### resources
   Env de configuração e sql do projeto
 
@@ -63,13 +62,10 @@ cd target/ && java -jar api-pagamentos-0.0.1-SNAPSHOT.jar
   - `spring-boot-starter-validation`: Para validação de dados.
 
 - **H2 Database**: Banco de dados em memória utilizado para desenvolvimento e testes.
-  - `h2`: Banco de dados leve e embutido.
 
-- **Lombok**: Biblioteca para reduzir o boilerplate no código Java (getter, setter, etc.).
-  - `lombok`: Para geração automática de código.
+- **Lombok**: Biblioteca para reduzir o boilerplate no código Java (data, getter, setter, constructors, etc.).
 
 - **Springdoc OpenAPI**: Para documentação automática da API via Swagger.
   - `springdoc-openapi-starter-webmvc-ui`: Para gerar a interface do Swagger.
 
-- **ModelMapper**: Biblioteca para mapeamento de objetos Java.
-  - `modelmapper`: Para facilitar o mapeamento entre DTOs e entidades.
+- **ModelMapper**: Biblioteca para mapeamento de objetos Java, facilita o mapeamento entre DTOs e entities.
