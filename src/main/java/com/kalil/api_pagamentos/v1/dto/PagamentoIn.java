@@ -2,6 +2,7 @@ package com.kalil.api_pagamentos.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalil.api_pagamentos.domain.model.MetodoPagamento;
+import com.kalil.api_pagamentos.domain.service.MetodoPagamentoService;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import lombok.AllArgsConstructor;
 
 @Data
 public class PagamentoIn {
@@ -34,17 +36,4 @@ public class PagamentoIn {
     @JsonProperty("nCartao")
     @Pattern(regexp = "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9]{2})[0-9]{12}|3[47][0-9]{13}|(?:2131|1800|35\\d{3})\\d{11})$", message = "Formato do número do cartão de credito ou debito inválido")
     private String nCartao;
-
-    
-
-    @AssertTrue(message = "Número do cartão é obrigatório para pagamentos com o cartão de crédito ou debito!")
-    public boolean isNcartaovalTrue() {
-        if (metodoPagamento != null && 
-            (metodoPagamento.getNome().equalsIgnoreCase("cartao_credito") || 
-             metodoPagamento.getNome().equalsIgnoreCase("cartao_debito"))) {
-            return nCartao != null && String.valueOf(nCartao).matches("\\d{16}");
-        }
-        return true;
-    }
-
 }

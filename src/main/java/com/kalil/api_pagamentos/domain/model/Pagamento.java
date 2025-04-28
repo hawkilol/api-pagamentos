@@ -2,10 +2,7 @@ package com.kalil.api_pagamentos.domain.model;
 
 import java.io.Serializable;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLRestriction;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,14 +19,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+
 @Data
 @Entity
 @Table(name = "PAGAMENTO")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@FilterDef(name = "ativoFilter", parameters = @ParamDef(name = "ativo", type = Boolean.class))
-@Filters({@Filter(name = "ativoFilter", condition = "pag_ativo = :ativo")})
+@SQLRestriction("pag_ativo = true")
 public class Pagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 

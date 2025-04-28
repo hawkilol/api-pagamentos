@@ -7,12 +7,27 @@ Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamen
 
 ### 1. Recebimento de Pagamentos
 - #### /v1/pagamento
+  Cria pagagamento (codigoDebito, cpfCnpj, metodoPagamento(id), valor, nCartao)
 ### 2. Atualização de Status de Pagamento
 - #### /v1/pagamento-status/{pagamentoId}
+  Atualiza Status por id
 ### 3. Listagem de Pagamentos
-- #### /v1/pagamentos-listar
+- #### /v1/pagamentos-filtar
+  Paginação e ordenação pelos parametros do pageable
+  Filtra por codigoDebito e/ou cpfCpnj e/ou status (body vazio {} para listar sem filtro)
+
 ### 4. Exclusão Lógica de Pagamentos
 - #### /v1/pagamento/{pagamentoId}
+  Desativar pagamento por id
+
+### 5. Aux
+- #### /v1/pagamento/{pagamentoId}
+  Ler um pagamento por id
+- #### /v1/pagamento-status-listar
+  Lista os status disponíveis
+- #### /v1/metodosPagamento
+  Lista os metodos disponíveis 
+  
 
 ## Versão compatível: JAVA 17+
   
@@ -20,7 +35,7 @@ Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamen
 ```bash
 cd mvn clean install
 ```
-## Start in
+## Start dev
 ```bash
 cd target/ && java -jar api-pagamentos-0.0.1-SNAPSHOT.jar
 ```
@@ -65,21 +80,23 @@ cd target/ && java -jar api-pagamentos-0.0.1-SNAPSHOT.jar
 - ### resources
   Env de configuração e sql do projeto
 
+## test
+  Testes do controller
 
 
 ## Dependências do Projeto
   Dependências principais:
 
 - **Spring Boot**: Framework principal para construção de aplicações Java.
-  - `spring-boot-starter-data-jpa`: Para integração com JPA e persistência de dados.
-  - `spring-boot-starter-web`: Para criação de APIs RESTful.
+  - `spring-boot-starter-data-jpa`: Para integração query JPA e persistência de dados.
+  - `spring-boot-starter-web`: Para criação de APIs REST.
   - `spring-boot-starter-validation`: Para validação de dados.
 
-- **H2 Database**: Banco de dados em memória utilizado para desenvolvimento e testes.
+- **H2 Database**: Banco de dados em memória.
 
-- **Lombok**: Biblioteca para reduzir o boilerplate no código Java (data, getter, setter, constructors, etc.).
+- **Lombok**: Reduzir o boilerplate (data, getter, setter, constructors, etc.).
 
-- **Springdoc OpenAPI**: Para documentação automática da API via Swagger.
-  - `springdoc-openapi-starter-webmvc-ui`: Para gerar a interface do Swagger.
+- **Springdoc OpenAPI**: Documentação da API via Swagger.
+  - `springdoc-openapi-starter-webmvc-ui`: Interface do Swagger.
 
-- **ModelMapper**: Biblioteca para mapeamento de objetos Java, facilita o mapeamento entre DTOs e entities.
+<!-- - **ModelMapper**: apeamento de objetos Java, facilita o mapeamento entre DTOs e entities. -->

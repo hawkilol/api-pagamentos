@@ -12,7 +12,7 @@
 --     FOREIGN KEY (pag_metpag) REFERENCES METODO_PAGAMENTO(id)
 -- );
 
--- //Usando Filter no model pra flag ativo ao inves de excluir pela view aqui
+-- //Usando SQLRestriction no model pra flag ativo ao inves de excluir pela view aqui
 -- CREATE VIEW PAGAMENTO_ATIVOS AS SELECT * FROM PAGAMENTO WHERE pag_ativo = true;
 
 INSERT INTO METODO_PAGAMENTO (metpag_nome) VALUES ('boleto');

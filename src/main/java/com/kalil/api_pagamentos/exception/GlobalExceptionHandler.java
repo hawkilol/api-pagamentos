@@ -18,27 +18,42 @@ import jakarta.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+    public ResponseEntity<Map<String, Map<String, String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> fieldErrors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            fieldErrors.put(fieldName, errorMessage);
         });
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(wrapErrors(fieldErrors), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException ex) {
-        Map<String, String> errors = new HashMap<>();
-        
+    public ResponseEntity<Map<String, Map<String, String>>> handleConstraintViolationException(ConstraintViolationException ex) {
+        Map<String, String> fieldErrors = new HashMap<>();
+
         ex.getConstraintViolations().forEach(violation -> {
             String fieldName = violation.getPropertyPath().toString();
             String errorMessage = violation.getMessage();
-            errors.put(fieldName, errorMessage);
+            fieldErrors.put(fieldName, errorMessage);
         });
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(wrapErrors(fieldErrors), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, Map<String, String>>> handleRuntimeException(RuntimeException ex) {
+        Map<String, String> fieldErrors = new HashMap<>();
+        fieldErrors.put("error", ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
+
+        return new ResponseEntity<>(wrapErrors(fieldErrors), HttpStatus.BAD_REQUEST);
+    }
+
+    private Map<String, Map<String, String>> wrapErrors(Map<String, String> errors) {
+        Map<String, Map<String, String>> wrapper = new HashMap<>();
+        wrapper.put("errors", errors);
+        return wrapper;
     }
 }
