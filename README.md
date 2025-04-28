@@ -1,4 +1,14 @@
 # API Pagamentos
+Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamentos de débitos de pessoas físicas e jurídicas.
+
+## Funcionalidades
+> [!IMPORTANT]
+> Endpoints documentados no Swagger (http://localhost:8080/swagger-ui/index.html)
+
+### 1. Recebimento de Pagamentos
+### 2. Atualização de Status de Pagamento
+### 3. Listagem de Pagamentos
+### 4. Exclusão Lógica de Pagamentos
 
 ## Versão compatível: JAVA 17+
   
