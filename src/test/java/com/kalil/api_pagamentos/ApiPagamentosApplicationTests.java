@@ -46,7 +46,19 @@ class ApiPagamentosApplicationTests {
     // Teste de Leitura de Pagamento
     @Test
     void deveLerPagamentoComSucesso() throws Exception {
-        Long pagamentoId = 1L;
+        PagamentoIn pagamentoIn = new PagamentoIn();
+        pagamentoIn.setCodigoDebito("777777");
+        pagamentoIn.setCpfCnpj("212.644.657-34");
+        MetodoPagamento met = new MetodoPagamento();
+        met.setId(3L);
+        pagamentoIn.setMetodoPagamento(met);
+        pagamentoIn.setValor(1337.10);
+        pagamentoIn.setNCartao("5131117859802111");
+        System.out.println("pagamentoIn");
+        System.out.println(pagamentoIn);
+        ResponseEntity<Pagamento> responseCriar = pagamentoController.criarPag(pagamentoIn);
+
+        Long pagamentoId = responseCriar.getBody().getId();
         ResponseEntity<Pagamento> response = pagamentoController.lerPag(pagamentoId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -70,7 +82,19 @@ class ApiPagamentosApplicationTests {
     // Teste de Atualização de Status do Pagamento
     @Test
     void deveAtualizarStatusParaProcessadoComSucesso() throws Exception {
-        Long pagamentoId = 1L;
+        PagamentoIn pagamentoIn = new PagamentoIn();
+        pagamentoIn.setCodigoDebito("777777");
+        pagamentoIn.setCpfCnpj("212.644.657-34");
+        MetodoPagamento met = new MetodoPagamento();
+        met.setId(3L);
+        pagamentoIn.setMetodoPagamento(met);
+        pagamentoIn.setValor(1337.10);
+        pagamentoIn.setNCartao("5131117859802111");
+        System.out.println("pagamentoIn");
+        System.out.println(pagamentoIn);
+        ResponseEntity<Pagamento> responseCriar = pagamentoController.criarPag(pagamentoIn);
+
+        Long pagamentoId = responseCriar.getBody().getId();
         StatusPagamentoIn statusNovo = new StatusPagamentoIn();
         statusNovo.setStatus("SUCESSO");
 
@@ -82,10 +106,23 @@ class ApiPagamentosApplicationTests {
     // Teste de Exclusão Lógica de Pagamento
     @Test
     void deveDesativarPagamentoComStatusPendente() throws Exception {
-        Long pagamentoId = 1L;
+        PagamentoIn pagamentoIn = new PagamentoIn();
+        pagamentoIn.setCodigoDebito("777777");
+        pagamentoIn.setCpfCnpj("212.644.657-34");
+        MetodoPagamento met = new MetodoPagamento();
+        met.setId(3L);
+        pagamentoIn.setMetodoPagamento(met);
+        pagamentoIn.setValor(1337.10);
+        pagamentoIn.setNCartao("5131117859802111");
+        System.out.println("pagamentoIn");
+        System.out.println(pagamentoIn);
+        ResponseEntity<Pagamento> responseCriar = pagamentoController.criarPag(pagamentoIn);
+
+        Long pagamentoId = responseCriar.getBody().getId();
+
         ResponseEntity<Pagamento> response = pagamentoController.desativarPagamento(pagamentoId);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     // Teste de Listagem de Status de Pagamento

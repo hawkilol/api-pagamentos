@@ -47,7 +47,7 @@ public class PagamentoController {
     @Transactional
     public ResponseEntity<Pagamento> criarPag(@Valid @RequestBody PagamentoIn pagamentoIn){
         Pagamento pagamento = pagamentoService.criar(pagamentoIn);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(pagamento, HttpStatus.CREATED);
 
     }
     @GetMapping(value = "/pagamento/{pagamentoId}")
