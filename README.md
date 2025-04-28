@@ -3,7 +3,8 @@ Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamen
 
 ## Funcionalidades
 > [!IMPORTANT]
-> Endpoints documentados no Swagger (http://localhost:8080/swagger-ui/index.html)
+> Endpoints documentados no Swagger (/swagger-ui/index.html)
+> Deploy: https://api-pagamentos-t5ji.onrender.com
 
 ### 1. Recebimento de Pagamentos
 - #### /v1/pagamento
@@ -29,7 +30,7 @@ Esta API tem como objetivo possibilitar o recebimento e gerenciamento de pagamen
   Lista os metodos disponíveis 
   
 
-## Versão compatível: JAVA 17+
+## Versão compatível: JAVA 17+, Maven 3.9.9
   
 ## Build
 ```bash
